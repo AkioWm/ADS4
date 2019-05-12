@@ -9,7 +9,7 @@ public class ParserT implements Parser {
     private final Lexer lexer;
     private Token token;
 
-    public Parser(Reader reader) {
+    public ParserT(Reader reader) {
         lexer = new Lexer(reader);
     }
 
@@ -48,7 +48,7 @@ public class ParserT implements Parser {
     //     }
     // }
 
-    public List<Instr> parseProg() throws IOException{
+    public /*List<Instr>*/void parseProg() throws IOException{
       switch(peek().kind){
         case AV:
         case TOU:
@@ -58,7 +58,7 @@ public class ParserT implements Parser {
             discard();
             parseProg();
             discard();
-            return 
+            return ;
         default:
                 throw new IOException("Expected prog, found " + peek());
       }
@@ -82,7 +82,7 @@ public class ParserT implements Parser {
     //     }
     // }
 
-    private Instr parseInstr() throws IOException {
+    private /*Instr*/void parseInstr() throws IOException {
         switch (peek().kind) {
             case AV:
             case TOU:
@@ -93,30 +93,30 @@ public class ParserT implements Parser {
                 parseExpr();
                 check(TokenKind.RPAREN);
                 discard();
-                return 
+                return ;
                 
-                
+
             default:
                 throw new IOException("Expected instr, found " + peek());
         }
     }
 
-    private Expr parseExpr() throws IOException {
+    private /*Expr*/void parseExpr() throws IOException {
         switch (peek().kind) {
             case LIR : 
                 discard();
-                return 
+                return ;
             case INT:
                 parseINT();
-                return 
+                return ;
             case LPAREN :
                 discard();
                 parseExpr();
                 parseBinOp();
                 parseExpr();
-                check(RPAREN);
+                check(TokenKind.RPAREN);
                 discard();
-                return 
+                return ;
             default:
                 throw new IOException("Expected intExpr, found " + peek());
         }
@@ -148,11 +148,12 @@ public class ParserT implements Parser {
                 throw new IOException("Expected binOp, found " + peek());
         }
     }
-    private INT parseINT(){
+    private int parseINT(){
         switch (peek().kind) {
             case INT:
+                int a = token.value;
                 discard();
-                return  
+                return a;
 
             default:
                 throw new IOException("Expected INT, found " + peek());

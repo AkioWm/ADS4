@@ -1,7 +1,6 @@
-
+package arith;
 public class Tokens{
-
-
+  
   public enum TokenKind{
     // STRING(),
     AV(),
