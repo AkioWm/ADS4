@@ -59,6 +59,8 @@ public class ParserT implements Parser {
             parseProg();
             discard();
             return 
+        default:
+                throw new IOException("Expected prog, found " + peek());
       }
     }
 
@@ -145,5 +147,14 @@ public class ParserT implements Parser {
                 throw new IOException("Expected binOp, found " + peek());
         }
     }
-    private 
+    private INT parseINT(){
+        switch (peek().kind) {
+            case INT:
+                discard();
+                return  
+
+            default:
+                throw new IOException("Expected INT, found " + peek());
+        }
+    }
 }
