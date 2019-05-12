@@ -1,3 +1,4 @@
+
 public enum BinOp {
     PLUS("+") {
         public int apply(int x, int y) { return x + y; }

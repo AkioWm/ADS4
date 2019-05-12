@@ -9,9 +9,15 @@ public class ParserT implements Parser {
     private final Lexer lexer;
     private Token token;
 
+    public Program parseProgram(String exeName, Reader reader) {
+        return new Program();
+    }
+
+
     public ParserT(Reader reader) {
         lexer = new Lexer(reader);
     }
+
 
     private void next() throws IOException {
         token = lexer.yylex();
@@ -107,7 +113,8 @@ public class ParserT implements Parser {
                 discard();
                 return ;
             case INT:
-                parseINT();
+                // parseINT();
+                discard();
                 return ;
             case LPAREN :
                 discard();
@@ -132,31 +139,20 @@ public class ParserT implements Parser {
                 check(TokenKind.MINUS);
                 discard();
                 return BinOp.MINUS;
-            // case TIMES:
-            //     check(TokenKind.TIMES);
-            //     discard();
-            //     return BinOp.TIMES;
-            // case DIV:
-            //     check(TokenKind.DIV);
-            //     discard();
-            //     return BinOp.DIV;
-            // case MOD:
-            //     check(TokenKind.MOD);
-            //     discard();
-            //     return BinOp.MOD;
+            
             default:
                 throw new IOException("Expected binOp, found " + peek());
         }
     }
-    private int parseINT(){
+   /* private int parseINT(){
         switch (peek().kind) {
             case INT:
-                int a = token.value;
+                
                 discard();
-                return a;
+                
 
             default:
                 throw new IOException("Expected INT, found " + peek());
         }
-    }
+    }*/
 }

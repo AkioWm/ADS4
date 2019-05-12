@@ -1,6 +1,5 @@
 package arith;
 public class Tokens{
-  
   public enum TokenKind{
     // STRING(),
     AV(),
@@ -13,7 +12,9 @@ public class Tokens{
     LPAREN(),
     RPAREN(),
     PLUS(),
-    MINUS();
+    MINUS(),
+    ERROR(),
+    EOL();
   }
 
   public static class Token{
