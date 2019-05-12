@@ -1,6 +1,7 @@
-package parser;
+package arith;
 
-import static parser.Tokens.*;
+import static arith.Tokens.*;
+
 import java.util.Map;
 
 /** The lexical analyzer maps an input stream consisting of
