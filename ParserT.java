@@ -53,8 +53,12 @@ public class ParserT implements Parser {
         case AV:
         case TOU:
         case ECR:
-
-
+            parseInstr();
+            check(TokenKind.SEMICOL);
+            discard();
+            parseProg();
+            discard();
+            return 
       }
     }
 
@@ -78,89 +82,38 @@ public class ParserT implements Parser {
 
     private Instr parseInstr() throws IOException {
         switch (peek().kind) {
-            case VAR:
-                check(TokenKind.VAR);
-                String assignVar = peek().getStringValue();
-                discard();
-                check(TokenKind.EQ);
-                discard();
-                IntExpr assignValue = parseIntExpr();
-                check(TokenKind.SEMICOL);
-                discard();
-                return new Instr.Assign(assignVar, assignValue);
-            case PRINT:
-                check(TokenKind.PRINT);
-                discard();
-                IntExpr printValue = parseIntExpr();
-                check(TokenKind.SEMICOL);
-                discard();
-                return new Instr.Print(printValue);
-            case IF:
-                check(TokenKind.IF);
+            case AV:
+            case TOU:
+            case ECR:
                 discard();
                 check(TokenKind.LPAREN);
                 discard();
-                IntExpr arg0 = parseIntExpr();
-                check(TokenKind.EQEQ);
-                discard();
-                IntExpr arg1 = parseIntExpr();
+                parseExpr();
                 check(TokenKind.RPAREN);
                 discard();
-                check(TokenKind.LBRACE);
-                discard();
-                List<Instr> ifBody = parseProg();
-                check(TokenKind.RBRACE);
-                discard();
-                return new Instr.If(arg0, arg1, ifBody);
-            case FOR:
-                check(TokenKind.FOR);
-                discard();
-                check(TokenKind.VAR);
-                String forVar = peek().getStringValue();
-                discard();
-                check(TokenKind.FROM);
-                discard();
-                IntExpr start = parseIntExpr();
-                check(TokenKind.TO);
-                discard();
-                IntExpr end = parseIntExpr();
-                check(TokenKind.LBRACE);
-                discard();
-                List<Instr> forBody = parseProg();
-                check(TokenKind.RBRACE);
-                discard();
-                return new Instr.For(forVar, start, end, forBody);
+                return 
+            
             default:
                 throw new IOException("Expected instr, found " + peek());
         }
     }
 
-    private IntExpr parseIntExpr() throws IOException {
+    private Expr parseExpr() throws IOException {
         switch (peek().kind) {
-            case VAR:
-                check(TokenKind.VAR);
-                String name = peek().getStringValue();
+            case LIR : 
                 discard();
-                return new IntExpr.Var(name);
-            case POSINT:
-                check(TokenKind.POSINT);
-                int value = peek().getIntValue();
+                return 
+            case INT:
+                parseINT();
+                return 
+            case LPAREN :
                 discard();
-                return new IntExpr.PosInt(value);
-            case MINUS:
-                check(TokenKind.MINUS);
+                parseExpr();
+                parseBinOp();
+                parseExpr();
+                check(RPAREN);
                 discard();
-                IntExpr minusArg0 = parseIntExpr();
-                return new IntExpr.Minus(minusArg0);
-            case LPAREN:
-                check(TokenKind.LPAREN);
-                discard();
-                IntExpr binOpArg0 = parseIntExpr();
-                BinOp op = parseBinOp();
-                IntExpr arg1 = parseIntExpr();
-                check(TokenKind.RPAREN);
-                discard();
-                return new IntExpr.BinOp(op, binOpArg0, arg1);
+                return 
             default:
                 throw new IOException("Expected intExpr, found " + peek());
         }
@@ -192,4 +145,5 @@ public class ParserT implements Parser {
                 throw new IOException("Expected binOp, found " + peek());
         }
     }
+    private 
 }
